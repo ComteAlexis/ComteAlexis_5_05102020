@@ -4,6 +4,9 @@
 
 @import './layout/nav',
         './layout/header',
-        './layout/wrapper';
+        './layout/wrapper',
+        './layout/store';
 
-@import './vendors/normalize-8.0.1';
+@import './components/heading';
+
+@import './pages/index';
