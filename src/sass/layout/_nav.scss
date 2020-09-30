@@ -1,0 +1,25 @@
+.nav{
+    display: flex;
+    @media screen and (max-width: 600px){
+        width: 100%;
+    }
+
+    li{
+        padding: 0 25px;
+        line-height: 60px;
+        
+        a{
+            color: $color-primary;
+        }
+
+        @media screen and (max-width: 600px){
+            flex: 1;
+            text-align: center;
+            border-bottom: 2px solid $color-primary;
+        }
+
+        &:nth-child(2){
+            border-color:darken($color: $color-primary, $amount: 30);
+        }
+    }
+}
