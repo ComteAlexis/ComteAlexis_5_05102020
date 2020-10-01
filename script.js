@@ -6,7 +6,13 @@ function getTeddies() {
         request.open('GET', 'http://localhost:3000/api/teddies');
         request.onreadystatechange = function() {
             if(request.readyState == '4'){
-                resolve(JSON.parse(request.response));
+                if(JSON.parse(request.response).length > 0){
+                    resolve(JSON.parse(request.response));
+                }
+                else{
+                    reject()
+                }
+                
             }
         }
         request.send()
