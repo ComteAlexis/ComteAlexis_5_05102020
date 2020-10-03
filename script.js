@@ -1,68 +1,54 @@
+import {getTeddies, createArticle, getProductInfo, createProduct} from './teddies.js'
+
 const store = document.querySelector('.store')
 
-function getTeddies() {
-    return new Promise((resolve, reject) => {
-        let request = new XMLHttpRequest;
-        request.open('GET', 'http://localhost:3000/api/teddies');
-        request.onreadystatechange = function() {
-            if(request.readyState == '4'){
-                if(JSON.parse(request.response).length > 0){
-                    resolve(JSON.parse(request.response));
-                }
-                else{
-                    reject()
-                }
-                
-            }
+function arrayParam(path){
+    let pathUrl = path.split('/')
+    for(let i = 0; i < pathUrl.length; i++){
+        if(pathUrl[i] == ''){
+            pathUrl.splice(i, 1)
+            i--
         }
-        request.send()
-    })
+    }
+    return pathUrl
 }
 
-function createArticle(teddie){
+function $_GET(param) {
+	var vars = {};
+	window.location.href.replace( location.hash, '' ).replace( 
+		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+		function( m, key, value ) { // callback
+			vars[key] = value !== undefined ? value : '';
+		}
+	);
 
-    return new Promise ((resolve, reject) => {
-        let article = document.createElement('article')
-        let a = document.createElement('a')
-        let img = document.createElement('img')
-        let div = document.createElement('div')
-        let divInfo = document.createElement('div')
-        let name = document.createElement('h2')
-        let price = document.createElement('p')
-
-
-
-        article.classList.add('store', 'store__article')
-        a.setAttribute('href', `article.html/search?id=${teddie._id}`)
-        img.setAttribute('src', teddie.imageUrl)
-        div.classList.add('store', 'store__article', 'store__article__info')
-        name.textContent = teddie.name
-        price.classList.add('store', 'store__article', 'store__article__info', 'store__article__info__price')
-        price.textContent = teddie.price + '€'
-
-        divInfo.appendChild(name)
-        if(typeof(teddie.description) != undefined){
-            let description = document.createElement('p')
-            description.textContent = teddie.description
-            divInfo.appendChild(description)
-        }
-        div.appendChild(divInfo)
-        div.appendChild(price)
-        a.appendChild(img)
-        a.appendChild(div)
-        article.appendChild(a)
-
-        resolve(article)
-    })
-
-    
+	if ( param ) {
+		return vars[param] ? vars[param] : null;	
+	}
+	return vars;
 }
 
-getTeddies().then((teddiesList) => {
+var path = arrayParam(window.location.pathname)
+
+if(path[path.length - 1].match(/(index\.html)/gm) || path[path.length - 1].match(/(\.html)/gm) == null){
+    getTeddies().then((teddiesList) => {
         teddiesList.forEach(teddie => {
             createArticle(teddie).then((article) => {
                 store.appendChild(article)
             })
         })
-    }
-)
+    })
+}
+
+if(path[path.length - 1].match(/(product\.html)/gm)){
+    getProductInfo($_GET().id).then((infoTeddie) => {
+        createProduct(infoTeddie)
+    })
+}
+
+
+
+
+
+
+

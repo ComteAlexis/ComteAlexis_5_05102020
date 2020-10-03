@@ -5,8 +5,10 @@
 @import './layout/nav',
         './layout/header',
         './layout/wrapper',
-        './layout/store';
+        './layout/store',
+        './layout/product';
 
 @import './components/heading';
 
-@import './pages/index';
+@import './pages/index',
+        './pages/product';
