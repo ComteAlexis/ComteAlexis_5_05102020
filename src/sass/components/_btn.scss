@@ -1,0 +1,14 @@
+.btn{
+    border: none;
+    padding: 20px 30px;
+
+    &.btn--submit{
+        background-color: $color-primary;
+        border-radius: 8px;
+        color: #fff;
+        display: block;
+        width: 20%;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+}

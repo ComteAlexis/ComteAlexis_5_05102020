@@ -119,6 +119,7 @@ function createProduct(teddie){
 
             localStorage.setItem('panier', JSON.stringify(lastPanier))
         }
+        window.location.href = "http://localhost:5500/front/panier.html";
     })
 
     h2.textContent = teddie.name
@@ -136,4 +137,95 @@ function createProduct(teddie){
     product.appendChild(div)
 }
 
-export {getTeddies, createArticle, getProductInfo, createProduct}
+function deleteArticleInPanier(id, color){
+    let panier = JSON.parse(localStorage.getItem('panier'))
+    for(let i = 0; i < panier.length; i++){
+        if(panier[i].id == id && panier[i].color == color){
+            panier.splice(i, 1)
+            localStorage.setItem('panier', JSON.stringify(panier))
+            if(panier.length == 0){
+                localStorage.removeItem('panier')
+            }
+            return true
+        }
+    }
+    return false
+}
+
+function updateArticleInPanier(id, color, quantity){
+    let panier = JSON.parse(localStorage.getItem('panier'))
+    for(let i = 0; i < panier.length; i++){
+        if(panier[i].id == id && panier[i].color == color){
+            panier[i].quantity = quantity
+            if(panier[i].quantity > 0 ){
+                localStorage.setItem('panier', JSON.stringify(panier))
+            }
+            return true
+        }
+        else{
+        }
+    }
+    return false
+}
+
+function createProductPanier(product){
+
+    return new Promise((resolve, reject) => {
+        const article = document.createElement('li')
+        const img = document.createElement('img')
+        const divInfo = document.createElement('div')
+        const name = document.createElement('h2')
+        const description = document.createElement('p')
+        const divQuantity = document.createElement('div')
+        const quantity = document.createElement('input')
+        const prix = document.createElement('p')
+        const button = document.createElement('button')
+        let price;
+
+        getProductInfo(product.id).then((infoProduct) => {
+            img.setAttribute('src', infoProduct.imageUrl)
+            name.innerHTML = `${infoProduct.name} <span>(${product.color})</span>`//infoProduct.name + `(Color: ${product.color})`
+            description.textContent = infoProduct.description
+            quantity.setAttribute('value', product.quantity)
+            price = infoProduct.price
+            prix.textContent = (product.quantity * infoProduct.price) + '€'
+        })
+
+        button.textContent = 'X'
+
+        button.addEventListener('click', (e) => {
+            e.preventDefault()
+            let panier = document.querySelector('.list.list--panier')
+            if(deleteArticleInPanier(product.id, product.color)){
+                panier.removeChild(article)
+            }
+        })
+
+        quantity.addEventListener('change', (e) => {
+            const newQuantity = e.target.value
+            updateArticleInPanier(product.id, product.color, newQuantity)
+            prix.textContent = (quantity.value * price) + '€'
+        })
+
+        divInfo.classList.add('list', 'list--panier', 'list--panier__info')
+        prix.classList.add('list', 'list--panier', 'list--panier__prix')
+        quantity.setAttribute('type', 'number')
+
+        article.appendChild(img)
+        divInfo.appendChild(name)
+        divInfo.appendChild(description)
+        article.appendChild(divInfo)
+        divQuantity.appendChild(quantity)
+        article.appendChild(divQuantity)
+        article.appendChild(prix)
+        article.appendChild(button)
+        resolve(article)
+    })
+    
+
+
+}
+
+
+
+export {getTeddies, createArticle, getProductInfo, createProduct, createProductPanier}

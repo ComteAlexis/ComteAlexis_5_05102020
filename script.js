@@ -1,4 +1,4 @@
-import {getTeddies, createArticle, getProductInfo, createProduct} from './teddies.js'
+import {getTeddies, createArticle, getProductInfo, createProduct, createProductPanier} from './teddies.js'
 
 const store = document.querySelector('.store')
 
@@ -46,9 +46,49 @@ if(path[path.length - 1].match(/(product\.html)/gm)){
     })
 }
 
+if(path[path.length - 1].match(/(panier\.html)/gm)){
+    if(localStorage.getItem('panier') != null){
+        const panier = JSON.parse(localStorage.getItem('panier'))
+        panier.map((product) => {
+            createProductPanier(product).then((article) => {
+                document.querySelector('.list.list--panier').appendChild(article)
+            })
+        })
+    }
 
+    const buttonSubmit = document.querySelector('.panier .btn.btn--submit')
+    buttonSubmit.addEventListener('click', (e) => {
+        e.preventDefault()
+        let itemPanier = []
 
+        const firstname = document.querySelector('.form.form--panier #firstname').value
+        const lastname = document.querySelector('.form.form--panier #lastname').value
+        const email = document.querySelector('.form.form--panier #email').value
+        const city = document.querySelector('.form.form--panier #city').value
+        const adress = document.querySelector('.form.form--panier #adress').value
 
+        const contact = {
+            firstname: firstname,
+            lastname: lastname,
+            adress: adress,
+            city: city,
+            email: email
+        }
+        console.log(contact);
 
-
-
+        const test = JSON.parse(localStorage.getItem('panier'))
+        const test2 = test.map((elem) => {
+            let itemExist = false
+            for(let i = 0; i < itemPanier.length; i++){
+                if(itemPanier[i] == elem.id){
+                    itemExist = true
+                }
+            }
+            if(!itemExist){
+                itemPanier.push(elem.id)
+            }
+        })
+        console.log(itemPanier);
+    })
+    
+}

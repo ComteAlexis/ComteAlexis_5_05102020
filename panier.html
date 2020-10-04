@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='./src/css/main.css' rel='stylesheet' type='text/css'>
+    <script src="script.js" type='module' defer></script>
+    <title>Panier</title>
+</head>
+<body>
+    <header>
+        <div class="wrapper">
+            <div>
+                <p class="brandName">Orinoco</p>
+            </div>
+            <nav class='nav'>
+                <ul class="nav">
+                    <li><a href='./index.html'>Acceuil</a></li>
+                    <li><a href='./panier.html'>Panier</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id='panier'>
+        <div class="wrapper">
+            <h1 class='heading'>Votre Panier</h1>
+            <div class='panier'>
+                <ul class='list list--panier'>
+                </ul>
+                <form class='form form--panier' action='#' method='POST'>
+                    <div class="form--control">
+                        <label for="lastname">Nom</label>
+                        <input required id='lastname' type='text' placeholder='Nom'/>
+                    </div>
+                    <div class="form--control">
+                        <label for="firstname">Prénom</label>
+                        <input required id='firstname' type='text' placeholder='Prénom'/>
+                    </div>
+                    <div class="form--control">
+                        <label for="adress">Adresse</label>
+                        <input required id='adress' type='text' placeholder='n°, voie/rue'/>
+                    </div>
+                    <div class="form--control">
+                        <label for="city">Ville</label>
+                        <input required id='city' type='text' placeholder='Ville'/>
+                    </div>
+                    <div class="form--control">
+                        <label for="mail">eMail</label>
+                        <input required id='email' type='email' placeholder='Adresse email'/>
+                    </div>
+                    <input type='button' class='btn btn--submit' role='button' type='subit' value='Valider ma commande'/>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    
+</body>
+</html> 
